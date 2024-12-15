@@ -1,0 +1,47 @@
+#!/bin/sh
+
+
+start_kubelet() {
+  if [ -x /usr/local/bin/kubelet ]; then
+    mount --make-rshared /
+    echo "Starting kubelet:  /usr/local/bin/kubelet"
+    /usr/local/bin/kubelet --config=/var/lib/kubelet/config.yaml --kubeconfig=/etc/kubernetes/kubelet.conf --cgroup-driver cgroupfs >> /var/log/kubelet.log 2>&1 &
+  fi
+}
+
+bootstrap_kubelet() {
+  if [ -x /usr/local/bin/kubelet ]; then
+    echo "Bootstrapping kubelet:  /usr/local/bin/kubelet"
+    /usr/local/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=/var/lib/kubelet/config.yaml --kubeconfig=/etc/kubernetes/kubelet.conf --cgroup-driver cgroupfs >> /var/log/kubelet.log 2>&1 &
+  fi
+}
+
+stop_kubelet() {
+  echo "Stopping kubelet."
+  /usr/bin/killall -TERM kubelet
+}
+
+restart_kubelet() {
+  stop_kubelet
+  sleep 1
+  start_kubelet
+}
+
+PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin
+
+case "$1" in
+'start')
+  start_kubelet
+  ;;
+'stop')
+  stop_kubelet
+  ;;
+'restart')
+  restart_kubelet
+  ;;
+'bootstrap')
+  bootstrap_kubelet
+  ;;
+*)
+  echo "usage $0 start|stop|restart|bootstrap"
+esac

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+
+start_containerd() {
+  if [ -x /usr/local/bin/containerd ]; then
+    echo "Starting containerd:  /usr/local/bin/containerd"
+    /usr/local/bin/containerd >> /var/log/containerd.log 2>&1 &
+  fi
+}
+
+stop_containerd() {
+  for POD in $(/usr/local/bin/crictl --runtime-endpoint unix:///run/containerd/containerd.sock pods -q); do
+    /usr/local/bin/crictl --runtime-endpoint unix:///run/containerd/containerd.sock stopp $POD
+  done
+
+  echo "Stopping containerd."
+  /usr/bin/killall -TERM containerd
+}
+
+restart_containerd() {
+  stop_containerd
+  sleep 1
+  start_containerd
+}
+
+PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin
+
+case "$1" in
+'start')
+  start_containerd
+  ;;
+'stop')
+  stop_containerd
+  ;;
+'restart')
+  restart_containerd
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

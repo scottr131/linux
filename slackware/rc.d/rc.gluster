@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# /etc/rc.d/rc.samba
+#
+# Start/stop/restart the Samba SMB file/print server.
+#
+# To make Samba start automatically at boot, make this
+# file executable:  chmod 755 /etc/rc.d/rc.samba
+#
+
+gluster_start() {
+  if [ -x /usr/sbin/glusterd ]; then
+    echo "Starting gluster:  /usr/sbin/glusterd"
+    /usr/sbin/glusterd
+  fi
+}
+
+gluster_stop() {
+  killall -TERM glusterd
+}
+
+gluster_restart() {
+  gluster_stop
+  sleep 2
+  gluster_start
+}
+
+case "$1" in
+'start')
+  gluster_start
+  ;;
+'stop')
+  gluster_stop
+  ;;
+'restart')
+  gluster_restart
+  ;;
+*)
+  # Default is "start", for backwards compatibility with previous
+  # Slackware versions.  This may change to a 'usage' error someday.
+  gluster_start
+esac
+
