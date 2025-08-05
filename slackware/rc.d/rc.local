@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # /etc/rc.d/rc.local:  Local system initialization script.
 #
@@ -6,6 +6,36 @@
 # anything that needs to be run at shutdown time you can
 # make an /etc/rc.d/rc.local_shutdown script and put those
 # commands in there.
+export JAVA_HOME=/opt/jdk
+export PATH=$PATH:/opt/jdk/bin
+
+if [ -x /etc/rc.d/rc.openvswitch ]; then
+  /etc/rc.d/rc.openvswitch start
+fi
+
+if [ -x /etc/rc.d/rc.ovn-central ]; then
+  /etc/rc.d/rc.ovn-central start
+fi
+
+if [ -x /etc/rc.d/rc.ovn-host ]; then
+  /etc/rc.d/rc.ovn-host start
+fi
+
+if [ -x /etc/rc.d/rc.zfs ]; then
+  /etc/rc.d/rc.zfs start
+fi
+
+if [ -x /etc/rc.d/rc.linstor-satellite ]; then
+  /etc/rc.d/rc.linstor-satellite start
+fi
+
+if [ -x /etc/rc.d/rc.linstor-controller ]; then
+  /etc/rc.d/rc.linstor-controller start
+fi
+
+if [ -x /etc/rc.d/rc.incusd ]; then
+  /etc/rc.d/rc.incusd start
+fi
 
 if [ -x /etc/rc.d/rc.podman ]; then
   /etc/rc.d/rc.podman start
@@ -21,14 +51,10 @@ if [ -x /etc/rc.d/rc.containerd ]; then
   /etc/rc.d/rc.containerd start
 fi
 
+
 if [ -x /etc/rc.d/rc.kubelet ]; then
   /etc/rc.d/rc.kubelet start
 fi
 
-/usr/bin/distccd --user distcc --allow 10.1.31.0/24 --daemon
-
-if [ -x /usr/sbin/zabbix_agentd ]; then
-    echo "Starting zabbix agent:  /usr/sbin/zabbix_agentd"
-    /usr/sbin/zabbix_agentd
-fi
+#/usr/bin/distccd --user distcc --allow 10.1.31.0/24 --daemon
 

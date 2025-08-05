@@ -1,0 +1,81 @@
+#!/bin/sh
+#
+# /etc/rc.d/rc.libvirt
+#
+# Start/stop/restart the libvirt KVM services.
+#
+
+
+libvirt_start() {
+  echo "Starting libvirt daemons:"
+
+  for LVD in virtlogd virtlockd virtinterfaced virtstoraged virtnetworkd virtqemud; do
+  if [ -x /usr/sbin/$LVD ]; then
+    echo -n "  - $LVD: "
+    if [ -f /var/run/$LVD.pid ]; then
+      echo "appears to be running as PID $(cat /var/run/$LVD.pid)"
+    else
+      echo -n "/usr/sbin/$LVD -d"
+      /usr/sbin/$LVD -d
+      if [ -f /var/run/$LVD.pid ]; then
+        echo ", started as PID $(cat /var/run/$LVD.pid)"
+      else
+        echo ", failed to start!"
+      fi   
+    fi
+  fi
+  done
+
+  if [ -x /usr/libexec/libvirt-guests.sh ]; then
+    echo -n "Starting guests:"
+    /usr/libexec/libvirt-guests.sh start
+  fi
+  
+}
+
+libvirt_stop() {
+  if [ -x /usr/libexec/libvirt-guests.sh ]; then
+    echo "Stopping guests:"
+    /usr/libexec/libvirt-guests.sh stop
+  fi
+  
+  echo "Stopping libvirt daemons:"
+  for LVD in virtqemud virtnetworkd virtstoraged virtinterfaced virtlockd virtlogd; do
+  
+  if [ -f /var/run/$LVD.pid ]; then
+    echo -n "  - $LVD: Terminating PID $(cat /var/run/$LVD.pid)"
+    kill -TERM $(cat /var/run/$LVD.pid)
+    sleep .1s
+    if [ -f /var/run/$LVD.pid ]; then
+      echo ", waiting"
+      sleep 1
+      if [ -f /var/run/$LVD.pid ]; then
+        echo ", failed to stop."
+      fi
+    else
+      echo ", done."
+    fi
+  fi
+  done
+}
+
+libvirt_restart() {
+  libvirt_stop
+  libvirt_start
+}
+
+case "$1" in
+'start')
+  libvirt_start
+  ;;
+'stop')
+  libvirt_stop
+  ;;
+'restart')
+  libvirt_restart
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+
+ 
