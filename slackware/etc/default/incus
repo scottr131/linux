@@ -1,0 +1,4 @@
+# Default options for the incus daemon:
+#
+
+INCUSD_OPTS="--group=incus --logfile=/var/log/incusd"

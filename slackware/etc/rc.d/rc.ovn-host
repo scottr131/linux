@@ -1,0 +1,53 @@
+#!/bin/sh
+# /etc/rc.d/rc.ovn-host - start/stop the ovn controller daemon
+
+PATH=$PATH:/usr/share/ovn/scripts:/usr/share/openvswitch/scripts
+
+# To change the default options, edit /etc/default/ovn-central.
+if [ -r /etc/default/ovn-host ]; then
+  . /etc/default/ovn-host
+fi
+
+
+
+start_ovn_host() {
+  if [ -x /usr/bin/ovn-controller ]; then
+    if [ -f /var/run/ovn/ovn-controller.pid ]; then
+      echo "OVN controller appears be running as PID $(cat /var/run/ovn/ovn-controller.pid)"
+    else
+      echo "Starting OVN controller:  /usr/share/ovn/scripts/ovn-ctl start_controller"
+      /usr/share/ovn/scripts/ovn-ctl start_controller $OVN_CTL_OPTS
+    fi
+  fi
+}
+
+
+stop_ovn_host() {
+  if [ -f /var/run/ovn/ovn-controller.pid ]; then
+    echo -n  "Stopping OVN contoller: "
+    /usr/share/ovn/scripts/ovn-ctl stop_controller
+  fi
+}
+
+restart_ovn() {
+  stop_ovn_host
+  sleep 1
+  start_ovn_host
+}
+
+case "$1" in
+'start')
+  start_ovn_host
+  ;;
+'stop')
+  stop_ovn_host
+  ;;
+'restart')
+  restart_ovn
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+
+
+

@@ -1,0 +1,14 @@
+# Default options for Open Virtual Network:
+#
+# ovn-ctl options for OVN central services
+OVN_CTL_OPTS="--ovn-nb-logfile=/var/log/ovn/ovsdb-server-nb.log \
+    --db-nb-pidfile=/var/run/ovn/ovnnb_db.pid \
+    --db-nb-sock=/var/run/ovn/ovnnb_db.sock \
+    --db-nb-ctrl-sock=/var/run/ovn/ovnnb_db.ctl \
+    --ovn-sb-logfile=/var/log/ovn/ovsdb-server-sb.log \
+    --db-sb-pidfile=/var/run/ovn/ovnsb_db.pid \
+    --db-sb-sock=/var/run/ovn/ovnsb_db.sock \
+    --db-sb-ctrl-sock=/var/run/ovn/ovnsb_db.ctl \
+    --ovn-northd-nb-db=unix:/var/run/ovn/ovnnb_db.sock \
+    --ovn-northd-sb-db=unix:/var/run/ovn/ovnsb_db.sock"
+

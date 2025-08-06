@@ -1,0 +1,109 @@
+#!/bin/bash
+# /etc/rc.d/rc.ovn-central - start/stop the ovn NB and SB database servers, and north daemon
+
+PATH=$PATH:/usr/share/ovn/scripts:/usr/share/openvswitch/scripts
+
+# To change the default options, edit /etc/default/ovn-central.
+if [ -r /etc/default/ovn-central ]; then
+  . /etc/default/ovn-central
+fi
+
+start_ovn_nbdb() {
+  if [ -x /usr/sbin/ovsdb-server ]; then
+    if [ -f /var/run/ovn/ovnnb_db.pid ]; then
+      echo "OVN Northbound database appears be running as PID $(cat /var/run/ovn/ovnnb_db.pid)"
+    else  
+      echo "Starting ovsdb for OVN Northbound:  /usr/share/ovn/scripts/ovn-ctl start_nb_ovsdb"
+      /usr/share/ovn/scripts/ovn-ctl start_nb_ovsdb $OVN_CTL_OPTS
+    fi
+  fi
+}
+
+start_ovn_sbdb() {
+  if [ -x /usr/sbin/ovsdb-server ]; then
+    if [ -f /var/run/ovn/ovnsb_db.pid ]; then
+      echo "OVN Southbound database appears be running as PID $(cat /var/run/ovn/ovnsb_db.pid)"
+    else  
+      echo "Starting ovsdb for OVN Southbound:  /usr/share/ovn/scripts/ovn-ctl start_sb_ovsdb"
+      /usr/share/ovn/scripts/ovn-ctl start_sb_ovsdb $OVN_CTL_OPTS
+    fi
+  fi
+}
+
+start_ovn_northd() {
+  if [ -x /usr/bin/ovn-northd ]; then
+    if [ -f /var/run/ovn/ovn-northd.pid ]; then
+      echo "OVN northd appears be running as PID $(cat /var/run/ovn/ovn-northd.pid)"
+    else
+      echo "Starting OVN northd:  /usr/share/ovn/scripts/ovn-ctl start_northd"
+      /usr/share/ovn/scripts/ovn-ctl start_northd $OVN_CTL_OPTS
+    fi
+  fi
+}
+
+stop_ovn_nbdb() {
+  if [ -f /var/run/ovn/ovnnb_db.pid ]; then
+    echo -n  "Stopping ovsdb for OVN Northbound: "
+    /usr/share/ovn/scripts/ovn-ctl stop_nb_ovsdb
+  fi
+}
+
+stop_ovn_sbdb() {
+  if [ -f /var/run/ovn/ovnsb_db.pid ]; then
+    echo -n  "Stopping ovsdb for OVN Southbound: "
+    /usr/share/ovn/scripts/ovn-ctl stop_sb_ovsdb
+  fi
+}
+
+stop_ovn_northd() {
+  if [ -f /var/run/ovn/ovn-northd.pid ]; then
+    echo -n  "Stopping OVN northd: "
+    /usr/share/ovn/scripts/ovn-ctl --ovn-manage-ovsdb=no stop_northd
+  fi
+}
+
+restart_ovn() {
+  start_ovn-nbdb
+  start_ovn_sbdb
+  start_ovn_northd
+  sleep 1
+  stop_ovn_northd
+  stop_ovn_sbdb
+  stop_ovn_nbdb
+}
+
+case "$1" in
+'start')
+  start_ovn_nbdb
+  start_ovn_sbdb
+  start_ovn_northd
+  ;;
+'stop')
+  stop_ovn_northd
+  stop_ovn_sbdb
+  stop_ovn_nbdb
+  ;;
+'restart')
+  restart_ovn
+  ;;
+'start-nbdb')
+  start_ovn_nbdb
+  ;;
+'stop-nbdb')
+  stop_ovn_nbdb
+  ;;
+'start-sbdb')
+  start_ovn_sbdb
+  ;;
+'stop-sbdb')
+  stop_ovn_sbdb
+  ;;
+'start-northd')
+  start_ovn_northd
+  ;;
+'stop-northd')
+  stop_ovn_northd
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

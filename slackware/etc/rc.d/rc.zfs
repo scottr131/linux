@@ -1,0 +1,38 @@
+#!/bin/sh
+# /etc/rc.d/rc.zfs - start/stop the at daemon
+
+# To change the default options, edit /etc/default/zfs.
+if [ -r /etc/default/zfs ]; then
+  . /etc/default/zfs
+fi
+
+start_zfs() {
+  if [ -x /usr/sbin/zpool ]  ; then
+    echo "Importing zpools:  /usr/sbin/zpool import -a $ZFS_OPTS"
+    /usr/sbin/zpool import -a $ZFS_OPTS
+  fi
+}
+
+stop_zfs() {
+ echo "Stopping zfs."
+}
+
+restart_zfs() {
+  stop_zfs
+  sleep 1
+  start_zfs
+}
+
+case "$1" in
+'start')
+  start_zfs
+  ;;
+'stop')
+  stop_zfs
+  ;;
+'restart')
+  restart_zfs
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

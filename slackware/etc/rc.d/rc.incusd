@@ -1,0 +1,42 @@
+#!/bin/sh
+# /etc/rc.d/rc.incus - start/stop the incus daemon
+
+# To change the default options, edit /etc/default/atd.
+if [ -r /etc/default/incus ]; then
+  . /etc/default/incus
+fi
+
+start_incus() {
+  if ! /usr/bin/pgrep --ns $$ -f "^/usr/sbin/incusd" 1> /dev/null 2> /dev/null ; then
+    if [ -x /usr/sbin/incusd ]; then
+      echo "Starting incusd:  /usr/sbin/incusd $INCUSD_OPTS"
+      PATH=/usr/local/bin:$PATH
+      /usr/sbin/incusd $INCUSD_OPTS 1> /dev/null 2> /dev/null &
+    fi
+  fi
+}
+
+stop_incus() {
+  echo "Stopping incus."
+  /usr/bin/pkill --ns $$ incusd 2> /dev/null
+}
+
+restart_incus() {
+  stop_incus
+  sleep 1
+  start_incus
+}
+
+case "$1" in
+'start')
+  start_incus
+  ;;
+'stop')
+  stop_incus
+  ;;
+'restart')
+  restart_incus
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

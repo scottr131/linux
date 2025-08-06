@@ -6,19 +6,9 @@
 # anything that needs to be run at shutdown time you can
 # make an /etc/rc.d/rc.local_shutdown script and put those
 # commands in there.
-export JAVA_HOME=/opt/jdk
-export PATH=$PATH:/opt/jdk/bin
 
-if [ -x /etc/rc.d/rc.openvswitch ]; then
-  /etc/rc.d/rc.openvswitch start
-fi
-
-if [ -x /etc/rc.d/rc.ovn-central ]; then
-  /etc/rc.d/rc.ovn-central start
-fi
-
-if [ -x /etc/rc.d/rc.ovn-host ]; then
-  /etc/rc.d/rc.ovn-host start
+if [ -r /etc/default/java ]; then
+  . /etc/default/java
 fi
 
 if [ -x /etc/rc.d/rc.zfs ]; then
@@ -42,19 +32,17 @@ if [ -x /etc/rc.d/rc.podman ]; then
 fi
 
 if [ -x /etc/rc.d/rc.libvirt ]; then
-  if [ -e /mnt/vm/vm-mounted ]; then
-   /etc/rc.d/rc.libvirt start
-  fi
+  /etc/rc.d/rc.libvirt start
 fi
 
 if [ -x /etc/rc.d/rc.containerd ]; then
   /etc/rc.d/rc.containerd start
 fi
 
-
 if [ -x /etc/rc.d/rc.kubelet ]; then
   /etc/rc.d/rc.kubelet start
 fi
 
-#/usr/bin/distccd --user distcc --allow 10.1.31.0/24 --daemon
-
+if [ -x /etc/rc.d/rc.distccd ]; then
+  /etc/rc.d/rc.distccd start
+fi

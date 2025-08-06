@@ -1,0 +1,41 @@
+#!/bin/sh
+# /etc/rc.d/rc.incus - start/stop the incus daemon
+
+# To change the default options, edit /etc/default/atd.
+if [ -r /etc/default/linstor-satellite ]; then
+  . /etc/default/linstor-satellite
+fi
+
+start_incus() {
+  if ! /usr/bin/pgrep --ns $$ -f linstore.core.Satellite 1> /dev/null 2> /dev/null ; then
+    if [ -x /usr/share/linstor-server/bin/Satellite ]; then
+      echo "Starting LINSTOR Satellite:  /usr/share/linstor-server/bin/Satellite $SATELLITE_OPTS"
+      /usr/share/linstor-server/bin/Satellite $SATELLITE_OPTS >> /var/log/linstor/satellite 2>&1 &
+    fi
+  fi
+}
+
+stop_incus() {
+  echo "Stopping LINSTOR Satellite."
+  /usr/bin/pkill --ns $$ -f linstor.core.Satellite 2> /dev/null
+}
+
+restart_incus() {
+  stop_incus
+  sleep 1
+  start_incus
+}
+
+case "$1" in
+'start')
+  start_incus
+  ;;
+'stop')
+  stop_incus
+  ;;
+'restart')
+  restart_incus
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

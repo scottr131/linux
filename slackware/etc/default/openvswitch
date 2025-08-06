@@ -1,0 +1,6 @@
+# Default options for Open Virtual Switch:
+#
+# ovs-ctl options for ovs
+OVS_CTL_OPTS="--system-id=random \
+	--db-file=/etc/openvswitch/conf.db \
+    	--db-sock=/var/run/openvswitch/db.sock"

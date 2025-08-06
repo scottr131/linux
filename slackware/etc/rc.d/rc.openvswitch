@@ -1,0 +1,55 @@
+#!/bin/sh
+# /etc/rc.d/rc.ovn-host - start/stop the ovs database and switch daemon
+
+PATH=$PATH:/usr/share/openvswitch/scripts
+
+# To change the default options, edit /etc/default/ovn-central.
+if [ -r /etc/default/openvswitch ]; then
+  . /etc/default/openvswitch
+fi
+
+
+
+start_ovs() {
+  if [ -x /usr/sbin/ovs-vswitchd ]; then
+    if [ -x /usr/sbin/ovsdb-server ]; then
+      if [ -f /var/run/openvswitch/ovs-vswitchd.pid ]; then
+        echo "ovs-vswitchd appears be running as PID $(cat /var/run/openvswitch/ovs-vswitchd.pid)"
+      else
+        echo "Starting Open vSwitch:  /usr/share/openvswitch/scripts/ovs-ctl start"
+        /usr/share/openvswitch/scripts/ovs-ctl start $OVS_CTL_OPTS
+      fi
+    fi
+  fi
+}
+
+
+stop_ovs() {
+  if [ -f /var/run/openvswitch/ovs-vswitchd.pid ]; then
+    echo -n  "Stopping Open vSwitch: "
+    /usr/share/openvswitch/scripts/ovs-ctl stop
+  fi
+}
+
+restart_ovs() {
+  stop_ovs
+  sleep 1
+  start_ovs
+}
+
+case "$1" in
+'start')
+  start_ovs
+  ;;
+'stop')
+  stop_ovs
+  ;;
+'restart')
+  restart_ovs
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+
+
+
