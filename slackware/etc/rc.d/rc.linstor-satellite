@@ -8,6 +8,11 @@ fi
 
 start_incus() {
   if ! /usr/bin/pgrep --ns $$ -f linstore.core.Satellite 1> /dev/null 2> /dev/null ; then
+    if [[ -z ${JAVA_HOME+x} ]]; then
+      if [ -r /etc/default/java ]; then
+        . /etc/default/java
+      fi
+    fi
     if [ -x /usr/share/linstor-server/bin/Satellite ]; then
       echo "Starting LINSTOR Satellite:  /usr/share/linstor-server/bin/Satellite $SATELLITE_OPTS"
       /usr/share/linstor-server/bin/Satellite $SATELLITE_OPTS >> /var/log/linstor/satellite 2>&1 &

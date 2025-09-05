@@ -1,0 +1,39 @@
+#!/bin/sh
+# /etc/rc.d/rc.zfs - start/stop the at daemon
+
+# To change the default options, edit /etc/default/zfs.
+#if [ -r /etc/default/zfs ]; then
+#  . /etc/default/zfs
+#fi
+
+start_drbd() {
+  if [ -x /usr/sbin/drbdadm ]  ; then
+    echo "Starting DRBD:  /usr/sbin/drbdadmin up all"
+    /usr/sbin/drbdadm up all
+  fi
+}
+
+stop_drbd() {
+ echo "Stopping DRBD:" 
+    /usr/sbin/drbdadm down all
+}
+
+restart_drbd() {
+  stop_drbd
+  sleep 1
+  start_drbd
+}
+
+case "$1" in
+'start')
+  start_drbd
+  ;;
+'stop')
+  stop_drbd
+  ;;
+'restart')
+  restart_drbd
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac

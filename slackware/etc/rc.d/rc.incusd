@@ -18,7 +18,7 @@ start_incus() {
 
 stop_incus() {
   echo "Stopping incus."
-  /usr/bin/pkill --ns $$ incusd 2> /dev/null
+  /bin/killall -PWR /usr/sbin/incusd
 }
 
 restart_incus() {

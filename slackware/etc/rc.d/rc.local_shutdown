@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# /etc/rc.d/rc.local:  Local system initialization script.
+#
+# Put any local startup commands in here.  Also, if you have
+# anything that needs to be run at shutdown time you can
+# make an /etc/rc.d/rc.local_shutdown script and put those
+# commands in there.
+
+if [ -x /etc/rc.d/rc.incusd ]; then
+  /etc/rc.d/rc.incusd stop
+fi
+
+if [ -x /etc/rc.d/rc.linstor-satellite ]; then
+  /etc/rc.d/rc.linstor-satellite stop
+fi
+
+if [ -x /etc/rc.d/rc.linstor-controller ]; then
+  /etc/rc.d/rc.linstor-controller stop
+fi
+
+if [ -x /etc/rc.d/rc.drbd ]; then
+  /etc/rc.d/rc.drbd stop
+fi
+
+if [ -x /etc/rc.d/rc.podman ]; then
+  /etc/rc.d/rc.podman stop
+fi
+
+if [ -x /etc/rc.d/rc.libvirt ]; then
+   /etc/rc.d/rc.libvirt stop
+fi
+
+if [ -x /etc/rc.d/rc.containerd ]; then
+  /etc/rc.d/rc.containerd stop
+fi
+
+
+if [ -x /etc/rc.d/rc.kubelet ]; then
+  /etc/rc.d/rc.kubelet stop
+fi
+
+
