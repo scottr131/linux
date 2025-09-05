@@ -1,4 +1,0 @@
-# Default options for Open Virtual Network:
-#
-# ovn-ctl options for OVN central services
-OVN_CTL_OPTS=""

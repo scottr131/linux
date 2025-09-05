@@ -9,11 +9,6 @@ OVN_CTL_OPTS="--ovn-nb-logfile=/var/log/ovn/ovsdb-server-nb.log \
     --db-sb-pidfile=/var/run/ovn/ovnsb_db.pid \
     --db-sb-sock=/var/run/ovn/ovnsb_db.sock \
     --db-sb-ctrl-sock=/var/run/ovn/ovnsb_db.ctl \
-    --db-nb-addr=172.19.27.11 \
-    --db-nb-create-insecure-remote=yes \
-    --db-sb-addr=172.19.27.11 \
-    --db-sb-create-insecure-remote=yes \
-    --db-nb-cluster-local-addr=172.19.27.11 \
-    --db-sb-cluster-local-addr=172.19.27.11  \
-    --ovn-northd-nb-db=tcp:172.19.27.11:6641,tcp:172.19.27.12:6641,tcp:172.19.27.13:6641 \
-     --ovn-northd-sb-db=tcp:172.19.27.11:6642,tcp:172.19.27.12:6642,tcp:172.19.27.13:6642"
+    --ovn-northd-nb-db=unix:/var/run/ovn/ovnnb_db.sock \
+    --ovn-northd-sb-db=unix:/var/run/ovn/ovnsb_db.sock"
+
