@@ -19,6 +19,18 @@ if [ -x /etc/rc.d/rc.linstor-controller ]; then
   /etc/rc.d/rc.linstor-controller stop
 fi
 
+if [ -x /etc/rc.d/rc.ceph-osd ]; then
+  /etc/rc.d/rc.ceph-osd stop
+fi
+
+if [ -x /etc/rc.d/rc.ceph-mgr ]; then
+  /etc/rc.d/rc.ceph-mgr stop
+fi
+
+if [ -x /etc/rc.d/rc.ceph-mon ]; then
+  /etc/rc.d/rc.ceph-mon stop
+fi
+
 if [ -x /etc/rc.d/rc.drbd ]; then
   /etc/rc.d/rc.drbd stop
 fi
@@ -34,7 +46,6 @@ fi
 if [ -x /etc/rc.d/rc.containerd ]; then
   /etc/rc.d/rc.containerd stop
 fi
-
 
 if [ -x /etc/rc.d/rc.kubelet ]; then
   /etc/rc.d/rc.kubelet stop

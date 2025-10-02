@@ -1,0 +1,7 @@
+# Default options for Ceph
+#
+# These options are common to all Ceph daemons
+
+CEPH_CONF="/etc/ceph/ceph.conf"
+CEPH_USER="ceph"
+CEPH_GROUP="ceph"

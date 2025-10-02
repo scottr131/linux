@@ -11,7 +11,6 @@ if [ -r /etc/default/java ]; then
   . /etc/default/java
 fi
 
-
 if [ -x /etc/rc.d/rc.openvswitch ]; then
   /etc/rc.d/rc.openvswitch start
 fi
@@ -26,6 +25,18 @@ fi
 
 if [ -x /etc/rc.d/rc.zfs ]; then
   /etc/rc.d/rc.zfs start
+fi
+
+if [ -x /etc/rc.d/rc.ceph-mon ]; then
+  /etc/rc.d/rc.ceph-mon start
+fi
+
+if [ -x /etc/rc.d/rc.ceph-mgr ]; then
+  /etc/rc.d/rc.ceph-mgr start
+fi
+
+if [ -x /etc/rc.d/rc.ceph-osd ]; then
+  /etc/rc.d/rc.ceph-osd start
 fi
 
 if [ -x /etc/rc.d/rc.linstor-satellite ]; then

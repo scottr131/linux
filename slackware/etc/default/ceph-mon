@@ -1,0 +1,4 @@
+# Default options for Ceph monitor
+#
+
+CEPH_MON_ID=""

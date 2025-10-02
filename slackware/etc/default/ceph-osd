@@ -1,0 +1,4 @@
+# Default options for Ceph OSD
+#
+
+CEPH_OSD_ID=""

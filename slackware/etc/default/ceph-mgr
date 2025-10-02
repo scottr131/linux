@@ -1,0 +1,4 @@
+# Default options for Ceph manager
+#
+
+CEPH_MGR_ID=""

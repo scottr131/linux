@@ -1,0 +1,51 @@
+#!/bin/sh
+# /etc/rc.d/rc.ceph-osd - start/stop the Ceph OSD
+
+# To change the default options, edit /etc/default/ceph-osd.
+if [ -r /etc/default/ceph ]; then
+  . /etc/default/ceph
+fi
+
+if [ -r /etc/default/ceph-osd ]; then
+  . /etc/default/ceph-osd
+fi
+
+start_ceph() {
+  if [ ! -f /var/run/ceph/osd.$CEPH_OSD_ID.pid ]; then
+    mkdir -p /var/lib/ceph /var/log/ceph /var/run/ceph
+    chown -R ceph:ceph /var/lib/ceph /var/log/ceph /var/run/ceph
+    if [ -x /usr/bin/ceph-osd ]; then
+      echo "Starting Ceph Monitor:  /usr/bin/ceph-osd -c $CEPH_CONF --setuser $CEPH_USER --setgroup $CEPH_GROUP -i $CEPH_OSD_ID --pid-file /var/run/ceph/osd.$CEPH_OSD_ID.p
+id"
+      /usr/bin/ceph-osd -c $CEPH_CONF --setuser $CEPH_USER --setgroup $CEPH_GROUP -i $CEPH_OSD_ID --pid-file /var/run/ceph/osd.$CEPH_OSD_ID.pid
+    fi
+  fi
+}
+
+stop_ceph() {
+  if [ -f /var/run/ceph/osd.$CEPH_OSD_ID.pid ]; then
+    echo "Stopping Ceph Monitor."
+    /bin/kill -TERM "$(cat /var/run/ceph/osd.$CEPH_OSD_ID.pid)"
+    rm /var/run/ceph/osd.$CEPH_OSD_ID.pid
+  fi
+}
+
+restart_ceph() {
+  stop_ceph
+  sleep 1
+  start_ceph
+}
+
+case "$1" in
+'start')
+  start_ceph
+  ;;
+'stop')
+  stop_ceph
+  ;;
+'restart')
+  restart_ceph
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
