@@ -1,0 +1,143 @@
+#!/bin/sh
+# /etc/rc.d/rc.frr - start/stop the frr daemons
+
+# Local Daemon selection may be done by using /etc/frr/daemons.
+# Keep mgmtd and zebra first and do not list watchfrr!
+DAEMONS="mgmtd zebra bgpd ripd ripngd ospfd ospf6d isisd babeld pimd pim6d ldpd nhrpd eigrpd sharpd pbrd staticd bfdd fabricd vrrpd pathd"
+
+# To change the default options, edit /etc/default/frr.
+if [ -r /etc/default/frr ]; then
+  . /etc/default/frr
+fi
+
+# Load the daemon configuration or exit with error 
+if [ ! -f /etc/frr/daemons ]; then
+  echo "Missing /etc/frr/daemons, cannot start FRR"
+  exit 1
+fi
+
+. /etc/frr/daemons
+
+# Per the default daemons file...
+# The watchfrr, zebra and staticd daemons are always started.
+# The option to not start them is here but not advised.
+
+watchfrr=yes
+zebra=yes
+staticd=yes
+mgmtd=yes
+started_daemons=""
+
+start_daemon() {
+  local name=$1
+  local bin="/usr/sbin/$name"
+  echo -n "  $name ... "
+  run_daemon="${!name}"
+  optsvar="${name}_options"
+  daemon_opts="${!optsvar}"
+#  echo $run_daemon
+  if [ "$run_daemon" = "yes" ]; then
+    if [ -f /var/run/frr/$name.pid ]; then
+      echo "appears be running as PID $(cat /var/run/frr/$name.pid)"
+    else
+#     echo "Starting $name..."
+      $bin -d --pid_file /var/run/frr/$name.pid $daemon_opts
+      started_daemons="$started_daemons $name"
+      echo "Ok"
+    fi
+  else
+    echo "not enabled"
+  fi
+}
+
+stop_daemon() {
+  local name=$1
+  local pidfile="/var/run/frr/$name.pid"
+  echo -n "  $name ... "
+  PID=`cat $pidfile 2>/dev/null`
+#  echo $PID
+  run_daemon="${!name}"
+ 
+  if [ "$run_daemon" = "yes" ]; then
+    
+    if [ -f /var/run/frr/$name.pid ]; then
+      
+      kill -2 $PID 2>/dev/null
+      rm /var/run/frr/$name.pid
+      echo "Ok"
+    else
+      echo "No PID file"
+      killall -2 /usr/sbin/$name
+    
+    fi
+  else
+    echo "not enabled"
+  fi
+}
+
+restart_daemon() {
+  stop_daemon $1
+  sleep 1
+  start_daemon $1
+}
+
+
+start_frr() {
+
+  echo "Starting FRR daemons..."
+  for daemon_name in $DAEMONS; do
+    start_daemon $daemon_name
+  done
+
+  if [ "$watchfrr" = "yes" ]; then
+    echo -n "watchfrr ... "
+    
+    eval "/usr/sbin/watchfrr -d -p /var/run/frr/watchfrr.pid $watchfrr_options $started_daemons"
+    echo "Ok"
+  else
+    echo "WARNING: watchfrr not enabled"
+  fi
+    
+  echo "Started: $started_daemons"
+
+}
+
+
+stop_frr() {
+
+  echo "Stopping FRR daemons..."
+  for daemon_name in watchfrr $DAEMONS; do
+    stop_daemon $daemon_name
+  done
+
+
+}
+
+restart_ovn() {
+  stop_ovn_host
+  sleep 1
+  start_ovn_host
+}
+
+case "$1" in
+'start')
+  start_frr
+  ;;
+'stop')
+  stop_frr
+  ;;
+'start_daemon')
+  start_daemon $2
+  ;;
+'stop_daemon')
+  stop_daemon $2
+  ;;
+'restart_daemon')
+  restart_daemon $2
+  ;;
+'restart')
+  restart_ovn
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
