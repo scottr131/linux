@@ -2,20 +2,15 @@
 # /etc/rc.d/rc.incus - start/stop the incus daemon
 
 # To change the default options, edit /etc/default/atd.
-if [ -r /etc/default/linstor-controller ]; then
-  . /etc/default/linstor-controller
+if [ -r /etc/default/linstor ]; then
+  . /etc/default/linstor
 fi
 
 start_incus() {
   if ! /usr/bin/pgrep --ns $$ -f linstore.core.Controller 1> /dev/null 2> /dev/null ; then
-    if [[ -z ${JAVA_HOME+x} ]]; then
-      if [ -r /etc/default/java ]; then
-        . /etc/default/java
-      fi
-    fi
     if [ -x /usr/share/linstor-server/bin/Controller ]; then
       echo "Starting LINSTOR Satellite:  /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS"
-      /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS >> /var/log/linstor/controller 2>&1 &
+      JAVA_HOME="${JAVA_HOME}" /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS >> /var/log/linstor/controller 2>&1 &
     fi
   fi
 }
