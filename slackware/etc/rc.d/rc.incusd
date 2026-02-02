@@ -11,7 +11,7 @@ start_incus() {
     if [ -x /usr/sbin/incusd ]; then
       echo "Starting incusd:  /usr/sbin/incusd $INCUSD_OPTS"
       PATH=/usr/local/bin:$PATH
-      /usr/sbin/incusd $INCUSD_OPTS 1> /dev/null 2> /dev/null &
+      INCUS_UI="${INCUS_UI}" /usr/sbin/incusd $INCUSD_OPTS 1> /dev/null 2> /dev/null &
     fi
   fi
 }

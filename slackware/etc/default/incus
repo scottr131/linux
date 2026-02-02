@@ -2,3 +2,4 @@
 #
 
 INCUSD_OPTS="--group=incus --logfile=/var/log/incusd"
+INCUS_UI="/opt/incus/ui"
