@@ -1,40 +1,40 @@
 #!/bin/sh
-# /etc/rc.d/rc.incus - start/stop the incus daemon
+# /etc/rc.d/rc.controller - start/stop the controller daemon
 
 # To change the default options, edit /etc/default/atd.
 if [ -r /etc/default/linstor ]; then
   . /etc/default/linstor
 fi
 
-start_incus() {
+start_controller() {
   if ! /usr/bin/pgrep --ns $$ -f linstore.core.Controller 1> /dev/null 2> /dev/null ; then
     if [ -x /usr/share/linstor-server/bin/Controller ]; then
-      echo "Starting LINSTOR Satellite:  /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS"
+      echo "Starting LINSTOR Controller:  /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS"
       JAVA_HOME="${JAVA_HOME}" /usr/share/linstor-server/bin/Controller $CONTROLLER_OPTS >> /var/log/linstor/controller 2>&1 &
     fi
   fi
 }
 
-stop_incus() {
+stop_controller() {
   echo "Stopping LINSTOR Controller."
   /usr/bin/pkill --ns $$ -f linstor.core.Controller 2> /dev/null
 }
 
-restart_incus() {
-  stop_incus
+restart_controller() {
+  stop_controller
   sleep 1
-  start_incus
+  start_controller
 }
 
 case "$1" in
 'start')
-  start_incus
+  start_controller
   ;;
 'stop')
-  stop_incus
+  stop_controller
   ;;
 'restart')
-  restart_incus
+  restart_controller
   ;;
 *)
   echo "usage $0 start|stop|restart"
