@@ -17,7 +17,6 @@ curl:ADD
 cyrus-sasl:ADD
 daemon:ADD
 dehydrated:ADD
-dhcp:SKP
 dhcpcd:ADD
 dnsmasq:ADD
 dovecot:SKP
@@ -32,6 +31,7 @@ gnupg2:ADD
 gnutls:ADD
 gpa:ADD
 gpgme:ADD
+gpgmepp:ADD
 htdig:SKP
 httpd:SKP
 icmpinfo:SKP
@@ -46,6 +46,7 @@ ipw2100-fw:SKP
 ipw2200-fw:SKP
 irssi:SKP
 iw:SKP
+kea:SKP
 krb5:ADD
 lftp:SKP
 libassuan:ADD
@@ -66,6 +67,7 @@ libnfnetlink:ADD
 libnftnl:ADD
 libqmi:ADD
 libqrtr-glib:ADD
+libslirp:ADD
 libtirpc:ADD
 links:SKP
 lynx:SKP
@@ -101,7 +103,8 @@ nfs-utils:ADD
 nftables:ADD
 nghttp2:ADD
 nghttp3:ADD
-nmap:ADD
+ngtcp2:ADD
+nmap:SKP
 nn:SKP
 npth:ADD
 nss-mdns:ADD
@@ -111,6 +114,7 @@ obexftp:ADD
 openldap:ADD
 openobex:ADD
 openresolv:ADD
+openrsync:ADD
 openssh:ADD
 openssl:ADD
 openvpn:SKP
@@ -134,12 +138,15 @@ samba:SKP
 slrn:SKP
 snownews:SKP
 socat:ADD
+spice:ADD
+spice-protocol:ADD
 sshfs:ADD
 stunnel:SKP
 tcp_wrappers:ADD
 tcpdump:ADD
 telnet:ADD
 tftp-hpa:SKP
+timedated:ADD
 tin:SKP
 traceroute:ADD
 ulogd:ADD

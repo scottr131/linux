@@ -84,6 +84,8 @@ iceauth:ADD
 ico:ADD
 igt-gpu-tools:ADD
 imake:ADD
+intel-gmmlib:ADD
+intel-media-driver:ADD
 intel-vaapi-driver:ADD
 labwc:ADD
 libFS:ADD
@@ -122,9 +124,11 @@ libXvMC:ADD
 libXxf86dga:ADD
 libXxf86misc:ADD
 libXxf86vm:ADD
+libdecor:SKP
 libdisplay-info:ADD
 libdmx:ADD
 libdrm:ADD
+libei:ADD
 libepoxy:ADD
 liberation-fonts-ttf:ADD
 libevdev:ADD
@@ -139,6 +143,7 @@ libkkc-data:ADD
 libmypaint:ADD
 libpciaccess:ADD
 libpinyin:ADD
+libportal:ADD
 libpthread-stubs:ADD
 libsfdo:ADD
 libva:ADD
@@ -185,6 +190,7 @@ twm:ADD
 urw-core35-fonts-otf:ADD
 util-macros:ADD
 viewres:ADD
+virglrenderer:SKP
 vulkan-sdk:ADD
 wayland:ADD
 wayland-protocols:ADD
@@ -217,6 +223,7 @@ xcursor-themes:ADD
 xcursorgen:ADD
 xdbedizzy:ADD
 xdg-desktop-portal:ADD
+xdg-desktop-portal-gtk:ADD
 xdg-user-dirs:ADD
 xdg-utils:ADD
 xditview:ADD

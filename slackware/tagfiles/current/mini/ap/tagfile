@@ -1,5 +1,6 @@
 a2ps:SKP
 acct:SKP
+aha:ADD
 alsa-utils:SKP
 amp:SKP
 at:ADD
@@ -56,6 +57,8 @@ nvme-cli:ADD
 opus-tools:ADD
 pamixer:ADD
 powertop:ADD
+qemu:SKP
+qemu-guest-agent:ADD
 qpdf:ADD
 radeontool:SKP
 rdfind:SKP
