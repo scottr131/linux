@@ -240,6 +240,7 @@ xf86-input-vmmouse:ADD
 xf86-input-wacom:ADD
 xf86-video-amdgpu:ADD
 xf86-video-ati:ADD
+xf86-video-cirrus:ADD
 xf86-video-dummy:ADD
 xf86-video-intel:ADD
 xf86-video-mach64:ADD

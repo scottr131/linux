@@ -22,6 +22,8 @@ dmidecode:ADD
 dvd+rw-tools:SKP
 enscript:SKP
 flac:ADD
+fwupd:ADD
+fwupd-efi:ADD
 ghostscript:SKP
 ghostscript-fonts-std:SKP
 gphoto2:SKP

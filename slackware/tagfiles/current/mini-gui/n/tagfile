@@ -4,7 +4,7 @@ alpine:SKP
 autofs:ADD
 biff+comsat:SKP
 bind:SKP
-bluez:SKP
+bluez:ADD
 bluez-firmware:SKP
 bootp:SKP
 bridge-utils:ADD

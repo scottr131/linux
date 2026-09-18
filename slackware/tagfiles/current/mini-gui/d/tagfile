@@ -33,7 +33,7 @@ gcc-objc:SKP
 gcc-rust:SKP
 gdb:SKP
 gettext-tools:SKP
-git:SKP
+git:ADD
 gnucobol:SKP
 google-go-lang:SKP
 googletest:SKP
@@ -44,7 +44,7 @@ help2man:SKP
 icecream:SKP
 indent:SKP
 intltool:SKP
-jq:SKP
+jq:ADD
 kernel-headers:SKP
 libgccjit:SKP
 libtool:SKP
@@ -82,6 +82,7 @@ rust-bindgen:SKP
 sassc:SKP
 scons:SKP
 slacktrack:SKP
+stb:SKP
 strace:SKP
 subversion:SKP
 swig:SKP

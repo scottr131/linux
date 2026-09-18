@@ -69,7 +69,6 @@ dvdauthor:ADD
 ebook-tools:ADD
 editorconfig-core-c:ADD
 eigen:ADD
-eigen3:ADD
 elfutils:ADD
 enchant:ADD
 esound:ADD
@@ -141,6 +140,7 @@ gtkspell:ADD
 gvfs:ADD
 harfbuzz:ADD
 hicolor-icon-theme:ADD
+highway:ADD
 hunspell:ADD
 hyphen:ADD
 icon-naming-utils:ADD
@@ -227,6 +227,7 @@ libimobiledevice-glue:ADD
 libindicator:ADD
 libiodbc:ADD
 libjpeg-turbo:ADD
+libjxl:ADD
 libkarma:ADD
 libmad:ADD
 libmaxminddb:ADD
@@ -351,6 +352,7 @@ pcaudiolib:ADD
 pcre:ADD
 pcre2:ADD
 pcsc-lite:ADD
+pdfio:SKP
 phonon:ADD
 phonon-backend-gstreamer:ADD
 phonon-backend-mpv:ADD
