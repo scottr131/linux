@@ -2,6 +2,7 @@ OpenCC:ADD
 adwaita-fonts-ttf:ADD
 anthy-unicode:ADD
 appres:ADD
+bdf2psf:ADD
 bdftopcf:ADD
 beforelight:ADD
 bitmap:ADD
