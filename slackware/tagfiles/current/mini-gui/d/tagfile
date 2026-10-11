@@ -44,7 +44,7 @@ help2man:SKP
 icecream:SKP
 indent:SKP
 intltool:SKP
-jq:SKP
+jq:ADD
 kernel-headers:SKP
 libgccjit:SKP
 libtool:SKP
