@@ -23,7 +23,7 @@ dvd+rw-tools:SKP
 enscript:SKP
 f3:ADD
 flac:ADD
-fonts-uw-ttyp0:REC
+fonts-uw-ttyp0:ADD
 fwupd:ADD
 fwupd-efi:ADD
 ghostscript:SKP
