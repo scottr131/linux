@@ -276,6 +276,7 @@ libspectre:ADD
 libssh:ADD
 libssh2:ADD
 libtasn1:ADD
+libtatsu:SKP
 libtheora:ADD
 libtiff:ADD
 libtraceevent:ADD

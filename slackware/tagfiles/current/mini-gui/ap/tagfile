@@ -21,7 +21,9 @@ dmapi:ADD
 dmidecode:ADD
 dvd+rw-tools:SKP
 enscript:SKP
+f3:ADD
 flac:ADD
+fonts-uw-ttyp0:REC
 fwupd:ADD
 fwupd-efi:ADD
 ghostscript:SKP
@@ -74,6 +76,7 @@ seejpeg:ADD
 slackpkg:ADD
 soma:ADD
 sox:SKP
+spleen:ADD
 sqlite:ADD
 squashfs-tools:ADD
 stow:ADD
